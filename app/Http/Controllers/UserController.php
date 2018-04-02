@@ -119,4 +119,56 @@ class UserController extends Controller
         }
     }
 
+    public function addBalance(Request $request, $id){
+
+        try{
+
+            if($request->balance != NULL){
+                $var = User::findOrFail($id);
+                $var->update([
+                        'balance' => $var->balance + $request->balance
+                     ]);
+                return response([
+                    "Successful"
+                ]);
+            }
+
+        }catch(\Exception $e){
+            return response([
+                $e->getMessage()
+            ]);
+        }
+
+    }
+
+    public function subBalance(Request $request, $id){
+
+        try{
+
+            if($request->balance != NULL){
+                
+                $var = User::findOrFail($id);
+
+                if($var->balance < $request->balance){
+                    return response([
+                        "Insufficient Balance"
+                    ]);
+                }else{
+                    $var->update([
+                        'balance' => $var->balance - $request->balance
+                     ]);
+                    return response([
+                        "Successful"
+                    ]);
+                }
+            }
+
+        }catch(\Exception $e){
+            return response([
+                $e->getMessage()
+            ]);
+        }
+
+    }
+
 }

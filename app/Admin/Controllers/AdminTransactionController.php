@@ -2,7 +2,9 @@
 
 namespace App\Admin\Controllers;
 
-use App\Theatre;
+use App\Transaction;
+use App\User;
+use App\Ticket;
 
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -11,7 +13,7 @@ use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 
-class AdminTheatreController extends Controller
+class AdminTransactionController extends Controller
 {
     use ModelForm;
 
@@ -71,10 +73,11 @@ class AdminTheatreController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(Theatre::class, function (Grid $grid) {
+        return Admin::grid(Transaction::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
-            $grid->columns('movie_name','section','image');
+            $grid->columns('ticket_id','user_id');
+
             $grid->created_at();
             $grid->updated_at();
         });
@@ -87,12 +90,12 @@ class AdminTheatreController extends Controller
      */
     protected function form()
     {
-        return Admin::form(Theatre::class, function (Form $form) {
+        return Admin::form(Transaction::class, function (Form $form) {
 
             $form->display('id', 'ID');
-            $form->text('movie_name');
-            $form->number('section');
-            $form->text('image');
+            $form->select('ticket_id')->options(Ticket::all()->pluck('seats_id','id'));
+            $form->select('user_id')->options(User::all()->pluck('name', 'id'));
+
             $form->display('created_at', 'Created At');
             $form->display('updated_at', 'Updated At');
         });

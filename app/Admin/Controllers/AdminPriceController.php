@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Theatre;
+use App\price;
 
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -11,7 +11,7 @@ use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 
-class AdminTheatreController extends Controller
+class AdminPriceController extends Controller
 {
     use ModelForm;
 
@@ -71,10 +71,11 @@ class AdminTheatreController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(Theatre::class, function (Grid $grid) {
+        return Admin::grid(price::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
-            $grid->columns('movie_name','section','image');
+            $grid->columns('price');
+
             $grid->created_at();
             $grid->updated_at();
         });
@@ -87,12 +88,11 @@ class AdminTheatreController extends Controller
      */
     protected function form()
     {
-        return Admin::form(Theatre::class, function (Form $form) {
+        return Admin::form(price::class, function (Form $form) {
 
             $form->display('id', 'ID');
-            $form->text('movie_name');
-            $form->number('section');
-            $form->text('image');
+            $form->number('price');
+
             $form->display('created_at', 'Created At');
             $form->display('updated_at', 'Updated At');
         });

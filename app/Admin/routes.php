@@ -16,5 +16,7 @@ Route::group([
     $router->resource('/seat',AdminSeatsController::class);
     $router->resource('/ticket',AdminTicketController::class);
     $router->resource('/user',AdminUserController::class);
+    $router->resource('/price',AdminPriceController::class);
+    $router->resource('/transaction',AdminTransactionController::class);
 
 });

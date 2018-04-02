@@ -51,7 +51,7 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 
 //CORS
 header('Access-Control-Allow-Origin:*');//nerima dari port mana aja
-header('Access-Control-Allow-Headers:Authorization, X-Requested-With, content-type, access-control-allow-origin, access-control-allow-methods, access-control-allow-headers, X-XSRF-TOKEN');//nerima header apa aja
+header('Access-Control-Allow-Headers:Authorization, X-Requested-With, content-type, access-control-allow-origin, access-control-allow-methods, access-control-allow-headers, X-XSRF-TOKEN, Origin, X-Auth-Token, Authorization');//nerima header apa aja
 header('Access-Control-Allow-Methods:GET,POST,PUT,PATCH,DELETE');//method yang bisa diterima dari front end
 
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);

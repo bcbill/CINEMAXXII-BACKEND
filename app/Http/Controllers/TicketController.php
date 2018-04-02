@@ -159,4 +159,18 @@ class TicketController extends Controller
             ]);
         }
     }
+
+    public function getTicket($id){
+        try{
+            //get by seat id
+            $var = Ticket::where('seats_id',$id)->first();
+            return response([
+                'ticket' => $var
+            ]);
+        }catch(\Exception $e){
+            return response([
+                $e->getMessage()
+            ]);
+        }
+    }
 }

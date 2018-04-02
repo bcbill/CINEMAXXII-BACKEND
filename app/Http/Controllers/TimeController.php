@@ -70,9 +70,10 @@ class TimeController extends Controller
      */
     public function show($id)
     {
+        //get by theatre id
         try{
-            $var = Time::findOrFail($id);
-            return response([$var->time]);
+            $var = Theatre::findOrFail($id);
+            return response(['times' => $var->times]);
         }catch(\Exception $e){
             return response([
                 $e->getMessage()

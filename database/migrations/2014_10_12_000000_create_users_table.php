@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('phone');
             $table->date('dob')->format('d-m-Y');
+            $table->double('balance',5,2)->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

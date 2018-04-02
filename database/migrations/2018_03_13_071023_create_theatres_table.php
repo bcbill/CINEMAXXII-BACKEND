@@ -19,6 +19,7 @@ class CreateTheatresTable extends Migration
             $table->primary('id');
             $table->string('movie_name');
             $table->integer('section')->unique();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
         DB::statement('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');

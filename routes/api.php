@@ -20,6 +20,10 @@ Route::post('register', 'AuthController@register');
 
 Route::group(['middleware' => ['jwt.auth']], function() {
     Route::get('logout', 'AuthController@logout');
+    Route::get('sticket/{id}', 'TicketController@getTicket');
+    Route::get('utransactions/{id}', 'TransController@getUsers');
+    Route::put('addbalance/{id}', 'UserController@addBalance');
+    Route::put('subbalance/{id}', 'UserController@subBalance');
     Route::apiResources([
 		'seats'=>'SeatsController',
 		'theatres'=>'TheatreController',

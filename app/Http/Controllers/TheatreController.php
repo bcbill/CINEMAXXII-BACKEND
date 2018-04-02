@@ -31,6 +31,7 @@ class TheatreController extends Controller
 
                     'movie_name' => $request->movie_name,
                     'section' => $request->section,
+                    'image' => $request->image
 
                 ];
 
@@ -91,7 +92,7 @@ class TheatreController extends Controller
     public function update(Request $request, $id)
     {   
         try{
-            if($request->movie_name != NULL || $request->section != NULL){
+            if($request->movie_name != NULL || $request->section != NULL || $request->image != NULL){
                 //in case a field was not being updated/left as null let the current data in the database be stored in var
                 $var = Theatre::findOrFail($id);
                 if($request->movie_name == NULL){
@@ -100,9 +101,13 @@ class TheatreController extends Controller
                 if($request->section == NULL){
                     $request->section = $var->section;
                 }
+                if($request->image == NULL){
+                    $request->image = $var->image;
+                }
                 $var->update([
                         'movie_name' => $request->movie_name,
                         'section' => $request->section,
+                        'image' => $request->image
                     ]);
 
                 return response([

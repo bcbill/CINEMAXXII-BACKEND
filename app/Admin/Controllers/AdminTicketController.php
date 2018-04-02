@@ -57,12 +57,15 @@ class AdminTicketController extends Controller
      */
     public function create()
     {
+
         return Admin::content(function (Content $content) {
 
             $content->header('header');
             $content->description('description');
 
             $content->body($this->form());
+
+
         });
     }
 
@@ -93,6 +96,12 @@ class AdminTicketController extends Controller
 
             $form->display('id', 'ID');
             $form->select('seats_id')->options(Seats::all()->pluck('position', 'id'));
+
+            $var = Seats::where('position',$form->position);
+            $var->update([
+                'taken' => 1
+            ]);
+
             $form->display('created_at', 'Created At');
             $form->display('updated_at', 'Updated At');
         });

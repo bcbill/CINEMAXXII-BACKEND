@@ -31,7 +31,7 @@ class AuthController extends Controller
         $password = $request->password;
         $phone = $request->phone;
         $dob = $request->dob;
-        
+        // return response()->json(Hash::make($password));
         $user = User::create(['name' => $name, 'email' => $email, 'password' => Hash::make($password), 'phone' => $phone, 'dob' => $dob]);
         // $verification_code = str_random(30); //Generate verification code for email
         // DB::table('user_verifications')->insert(['user_id'=>$user->id,'token'=>$verification_code]);
@@ -61,19 +61,28 @@ class AuthController extends Controller
         try {
             // attempt to verify the credentials and create a token for the user
             if (! $token = JWTAuth::attempt($credentials)) {
-                return response()->json(['success' => false, 'error' => 'We cant find an account with this credentials. Please make sure you entered the right information and you have verified your email address.'], 401);
+                return response()->json(['success' => false, 'error' => 'We cant find an account with this credentials. Please make sure you entered the right information.'], 401);
             }
         } catch (JWTException $e) {
             // something went wrong whilst attempting to encode the token
             return response()->json(['success' => false, 'error' => 'Failed to login, please try again.'], 500);
         }
-        // all good so return the token
-        return response()->json(['success' => true, 'data'=> [ 'token' => $token ]]);
+
+        try{
+            $var = User::all()->where('email', $request->email);
+
+            // all good so return the token
+            return response()->json(['success' => true, 'data'=> [ 'token' => $token, 'user' => $var ]]);
+        }catch(\Exception $e){
+            return response([
+                $e->getMessage()
+            ]);
+        }
     }
 
     public function logout(Request $request)
     {
-    	//$this->validate($request, ['token' => 'required']);
+    	//$this->validate($request, ['token' => 'required']); //this is for putting the token in the url instead of header
         
         try {
             JWTAuth::invalidate();

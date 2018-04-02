@@ -75,9 +75,12 @@ class TransController extends Controller
     {
         try{
             $var = Transaction::leftJoin('tickets', 'tickets.id', '=', 'transactions.ticket_id')
+                ->leftJoin('seats', 'seats.id', '=', 'tickets.seats_id')
+                ->leftJoin('times','times.id','=','seats.time_id')
+                ->leftJoin('theatres','theatres.id','=','times.theatre_id')
                 ->leftJoin('users','users.id','=','transactions.user_id')
                 ->crossJoin('prices')
-                ->select('transactions.*', 'users.name', 'prices.price')
+                ->select('transactions.*', 'users.name', 'prices.price', 'theatres.movie_name', 'times.time')
                 ->where('transactions.id',$id)->first();
             if($var){
                 return response([
@@ -153,4 +156,28 @@ class TransController extends Controller
             ]);
         }
     }
+
+    public function getUsers($id){
+        try{
+            //get user's transactions
+            $var = User::leftJoin('transactions', 'transactions.user_id', '=', 'users.id')
+                ->leftJoin('tickets', 'tickets.id', '=', 'transactions.ticket_id')
+                ->leftJoin('seats', 'seats.id', '=', 'tickets.seats_id')
+                ->leftJoin('times','times.id','=','seats.time_id')
+                ->leftJoin('theatres','theatres.id','=','times.theatre_id')
+                ->crossJoin('prices')
+                ->select('transactions.*','prices.price', 'theatres.movie_name', 'times.time')
+                ->where('users.id',$id);
+                
+            return response([
+                'transactions' => $var->get(0)
+            ]);
+
+        }catch(\Exception $e){
+            return response([
+                $e->getMessage()
+            ]);
+        }
+    }
+
 }

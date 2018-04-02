@@ -74,7 +74,7 @@ class AdminUserController extends Controller
         return Admin::grid(User::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
-            $grid->columns('name','email','password','phone','dob');
+            $grid->columns('name','email','password','phone','dob', 'balance');
 
             $grid->created_at();
             $grid->updated_at();
@@ -95,6 +95,7 @@ class AdminUserController extends Controller
             $form->text('email');
             $form->password('password');
             $form->text('phone');
+            //$form->number('balance');
             $form->datetime('dob')->format('MM-DD-YYYY')->rules([
                 'start_date'        => 'date_format:d/m/Y|after:tomorrow',
                 'end_date'          => 'date_format:d/m/Y|after:start_date',

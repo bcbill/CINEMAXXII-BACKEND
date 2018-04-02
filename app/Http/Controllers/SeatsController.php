@@ -64,10 +64,11 @@ class SeatsController extends Controller
      */
     public function show($id)
     {
+        //get by time id
         try{
-            $selected = Seats::findOrFail($id);
+            $selected = Time::findOrFail($id);
             return response([
-                $selected
+                'seats' => $selected->seats
             ]);
         }catch(\Exception $e){//if the \ is not used before Exception, there will be an error App\Http\Controllers\Exception not found
             return response([

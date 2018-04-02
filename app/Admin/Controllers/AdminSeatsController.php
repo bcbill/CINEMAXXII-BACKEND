@@ -3,7 +3,8 @@
 namespace App\Admin\Controllers;
 
 use App\Seats;
-use App\Theatre;
+use App\Time;
+use App\Ticket;
 
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -76,7 +77,7 @@ class AdminSeatsController extends Controller
         return Admin::grid(Seats::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
-            $grid->columns('position','theatre_id','taken');
+            $grid->columns('position','time_id','taken');
             
     
             $grid->created_at();
@@ -95,10 +96,12 @@ class AdminSeatsController extends Controller
 
             $form->display('id', 'ID');
             $form->text('position');
-            $form->select('theatre_id')->options(Theatre::all()->pluck('movie_name', 'id')); //movie name yang keluar
+            $form->select('time_id')->options(Time::all()->pluck('time', 'id')); //movie name yang keluar
+
             
             $form->display('created_at', 'Created At');
             $form->display('updated_at', 'Updated At');
         });
     }
+
 }
